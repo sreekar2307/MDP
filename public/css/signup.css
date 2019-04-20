@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+*{
+		font-family: 'Montserrat', sans-serif;
+}
+body{
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	background-color: grey;
+	font-family: 'Montserrat', sans-serif;
+	background-image: url('../img/bg_login.jpg');
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+.box_login{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	background-color: white;
+	border-radius: 15px;
+	padding: 0 5em;
+}
+.hero{
+	margin-top:2em;
+	padding-bottom: 1em; 
+	color: #4c3c3c;
+    font-size: 1.5em;
+}
+.hero h1 a{
+	color: #4c3c3c;
+	text-decoration: none;
+	font-weight: bold;
+}
+.box_login h1{
+	text-align: center;
+	font-size: 1.5em;
+}
+.box_login form input[type="email"]{
+	margin-bottom: 1em;
+	border-width: 0 0 2px 0;
+	font-family: 'Montserrat', sans-serif; 
+	padding: 0.5em;
+}
+.box_login form input[type="password"]{
+	margin-bottom: 1em;
+	border-width: 0 0 2px 0;
+	font-family: 'Montserrat', sans-serif; 
+	padding: 0.5em;
+}
+.box_login form input[type="text"]{
+	margin-bottom: 1em;
+	border-width: 0 0 2px 0;
+	font-family: 'Montserrat', sans-serif; 
+	padding: 0.5em;
+}
+.box_login form input[type="tel"]{
+	margin-bottom: 1em;
+	border-width: 0 0 2px 0;
+	font-family: 'Montserrat', sans-serif; 
+	padding: 0.5em;
+}
+.box_login form input[type="submit"]{
+	font-family: 'Montserrat', sans-serif; 
+	background-color: #4c3c3c;
+	border: none;
+	border-radius: 30px;
+	padding: 1em 3em;
+	color: white;
+	margin-bottom: 3em;
+}
+.phone_number i{
+	margin-left: -20px;
+	color: #cc0000;
+}
+
+.box_login form input[type="submit"]:hover{
+   background-color: #565555;
+}
+.form_box{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+.password i{
+   margin-left: -20px;
+}

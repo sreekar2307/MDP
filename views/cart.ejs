@@ -1,0 +1,71 @@
+<% include partials/header%>
+<div class="w-75 mt-5 mx-auto row">
+<div class="col-md-7 cart_items">	
+<%if(cart_items){%>
+	<%for (var i=0;i<cart_items.length;i++){%>
+	<div class="card mb-3 p-3" style="max-width: 540px;">
+	  <div class="row no-gutters">
+	    <div class="col-md-4">
+	      <img src="<%= cart_items[i].movie_poster%>" class="card-img" alt="..." height=150px >
+	    </div>
+	    <div class="col-md-5 mx-3">
+	    	<b><p class="card-text mb-n1">Blu-ray DVD</p></b>
+	        Quantity: <input type="number" name="quantity"  min="1" max="5" step="1" value='1'class="form-control mb-1" id="<%=i+1%>">
+	        Price: <input type="number" name="price" disabled value="299" class="form-control price<%=i+1%>">
+	    </div>
+	  </div>
+	  <h6 class="card-title mt-2 mb-n1"><%=cart_items[i].movie_name%></h6>
+	</div>
+	<%}%>
+<%} else {%>
+<p>Your cart is empty</p>
+<%} %>
+</div>
+<div class="col-md-5 address">
+<h2 class="mb-5">TOTAL: <span class="float-right total"><%=299*cart_items.length%>/-</span></h2>
+<form>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Email</label>
+      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="phone_number">Phone number</label>
+      <input type="tel" name="phone_number" value=""placeholder="phone Number" pattern="[6789]{1}[0-9]{9}" minlength="10" maxlength="10" required class="form-control" id="phone_number">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputAddress">Address</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputCity">City</label>
+      <input type="text" class="form-control" id="inputCity">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputState">State</label>
+		<input type="text" class="form-control" id="inputState" placeholder="Your State">
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputZip">Zip</label>
+      <input type="text" class="form-control" id="inputZip">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Check Out</button>
+</form>
+</div>
+</div>
+<script type="text/javascript">
+	var total  = 299*<%=cart_items.length%>;
+	$( ".cart_items" ).on("change",function(e) {
+		if(e.target!=e.currentTarget)
+  		{
+  			document.querySelector('.price'+e.target.id).value = parseInt(document.querySelector('.price'+e.target.id).value)+299
+  			total+=299
+  			$('.total').text(total)
+  		}
+  		e.stopPropagation()
+	});
+</script>
+<% include partials/footer%>

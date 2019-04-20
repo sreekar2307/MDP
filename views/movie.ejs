@@ -1,0 +1,51 @@
+<% include partials/header%>
+<style type="text/css">
+	@media(max-width: 1000px){
+		.h1,h1{
+			font-size:1.25rem;
+		}
+		p{
+			font-size: 0.85rem;
+		}
+	}
+</style>
+<div class="d-flex  text-md-left text-center flex-md-row flex-column mt-5 w-75 mx-auto">
+	<a><div><img src="https://image.tmdb.org/t/p/w500<%=body['poster_path']%>" height=500 width=300></div></a>
+	<div class="d-flex flex-column">
+		<div class="px-md-5 py-3 py-md-3 title"><h1><%=body.original_title%></h1></div>
+		<div class="px-md-5 py-1"><p><b>Description: </b><%=body.overview%></p></div>
+		<div class="px-md-5 py-1"><p><b>Rating: </b><%=body.vote_average%></p></div>
+		<div class="px-md-5 py-1"><p><b>Cast: </b><%for (var i=0;i<3;i++){%><%=credits.cast[i].name%>, <%}%><%= credits.cast[3].name%>.</p></div>
+		<div class="px-md-5">
+		<span><b>Genres: </b></span>
+		<% for(var i=0;i<body.genres.length;i++) {%>
+		<button class="btn btn-sm btn-outline-primary disabled" style="cursor: default"><%=body.genres[i].name%></button>
+		<%}%>
+		</div>
+		<div class="px-md-5 py-3">
+			<p>Available on Blu-Ray at 
+				<b class="text-success font-weight-bolder" style="font-size: 1.5rem;">
+					<span class="ml-2">
+						<sup>₹</sup>299/-
+					</span>
+					<span class="ml-2"  style="font-size:1rem;">
+						<sup>₹</sup>
+						<strike class="text-primary"><span class="text-success">499/-</span></strike>
+					</span>
+				</b>
+			</p>
+			<form action="/add_to_cart/<%=body.id%>" method="POST" class="remove">
+				<input type="hidden" name="movie_name" value="<%=body.original_title%>">
+				<input type="hidden" name="movie_poster" value="https://image.tmdb.org/t/p/w500<%=body.poster_path%>">
+				<%if(!add_to_cart){%>
+					<button class="btn btn-primary" type="submit">Remove from cart</button>
+					<script type="text/javascript">
+						document.querySelector('.remove').action = '/remove_from_cart/<%=body.id%>'
+					</script>
+				<%} else {%>
+					<button class="btn btn-primary" type="submit">Add to cart</button>
+				<%}%>
+			</form>
+	</div>
+</div>
+<% include partials/footer%>
