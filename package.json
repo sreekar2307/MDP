@@ -13,6 +13,7 @@
     "express": "^4.16.4",
     "express-session": "^1.16.1",
     "googleapis": "^27.0.0",
+    "js-base64": "^2.5.1",
     "request": "^2.88.0",
     "supervisor": "^0.12.0"
   }
