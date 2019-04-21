@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const request = require('request');
 const session = require('express-session')
+const email = require('./email.js');
 
 app.use(express.static('public'))
 app.set('view engine','ejs');
@@ -74,7 +75,10 @@ app.post('/remove_from_cart/:id',function(req,res){
 	}
 	res.redirect('/movie/'+req.params.id);
 })
-
+app.get('/mail',function(req,res){
+	email.send_an_email("bollamsreekhar@gmail.com",'Age of Ultron-1');
+	res.send('Done');
+})
 // Listen in port no 3000
 app.listen(3000,function(){
 	console.log('server started');
