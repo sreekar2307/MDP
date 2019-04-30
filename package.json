@@ -9,6 +9,7 @@
   "author": "Sreekar",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.4",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-session": "^1.16.1",

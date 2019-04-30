@@ -14,7 +14,7 @@
 	        Price: <input type="number" name="price" disabled value="299" class="form-control price<%=i+1%>">
 	    </div>
 	  </div>
-	  <h6 class="card-title mt-2 mb-n1"><%=cart_items[i].movie_name%></h6>
+	  <h6 class="card-title mt-2 mb-n1 name<%=i+1%>"><%=cart_items[i].movie_name%></h6>
 	</div>
 	<%}%>
 <%} else {%>
@@ -22,12 +22,12 @@
 <%} %>
 </div>
 <div class="col-md-5 address">
-<h2 class="mb-5">TOTAL: <span class="float-right total"><%=299*cart_items.length%>/-</span></h2>
-<form>
+<h2 class="mb-5">TOTAL: <%if(cart_items){%><span class="float-right total"><%=299*cart_items.length%>/-</span><%}%></h2>
+<form method="POST" action="/checkout" id="myForm">
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label for="inputEmail4">Email</label>
-      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+      <label for="email_id">Email</label>
+      <input type="email" class="form-control" name='email'id="email_id" placeholder="Email">
     </div>
     <div class="form-group col-md-6">
       <label for="phone_number">Phone number</label>
@@ -35,7 +35,7 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="inputAddress">Address</label>
+    <label for="inputAddress">Shipping Address</label>
     <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
   </div>
   <div class="form-row">
@@ -52,20 +52,54 @@
       <input type="text" class="form-control" id="inputZip">
     </div>
   </div>
-  <button type="submit" class="btn btn-primary">Check Out</button>
+  <button type="submit" class="btn btn-primary checkout">Check Out</button>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thanks for shopping with us</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You will be recieving a confirmation mail shortly
+        Redirecting to home page... 
+      </div>
+    </div>
+  </div>
+</div>
 </form>
 </div>
 </div>
 <script type="text/javascript">
+  <%if (cart_items){%>
 	var total  = 299*<%=cart_items.length%>;
+  var cart_items= {};
 	$( ".cart_items" ).on("change",function(e) {
 		if(e.target!=e.currentTarget)
   		{
-  			document.querySelector('.price'+e.target.id).value = parseInt(document.querySelector('.price'+e.target.id).value)+299
+  			var price = document.querySelector('.price'+e.target.id);
+        var name  = document.querySelector('.name' +e.target.id).textContent;
+        price.value = parseInt(price.value)+299
   			total+=299
   			$('.total').text(total)
-  		}
+        cart_items[name] = parseInt(price.value)
+      }
+      document.cookie = 'cart_items='+JSON.stringify(cart_items)+';path=/';
   		e.stopPropagation()
 	});
+  <%for(var i=0;i<cart_items.length;i++){%>
+    cart_items["<%=cart_items[i].movie_name%>"] = 299;
+  <%}%>
+  document.cookie = 'cart_items='+JSON.stringify(cart_items)+';path=/';
+<%}%>
+  $("#myForm").one("submit", function(e){
+    e.preventDefault();
+    $('#exampleModal').modal('show');
+    setTimeout(function(){
+        $("#myForm").submit();
+    },1000);
+  });
 </script>
 <% include partials/footer%>
