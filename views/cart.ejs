@@ -10,7 +10,7 @@
 	    </div>
 	    <div class="col-md-5 mx-3">
 	    	<b><p class="card-text mb-n1">Blu-ray DVD</p></b>
-	        Quantity: <input type="number" name="quantity"  min="1" max="5" step="1" value='1'class="form-control mb-1" id="<%=i+1%>">
+	        Quantity: <input type="number" name="quantity"  min="1" max="5" step="1" value='1'class="form-control mb-1 quantity<%=i+1%>" id="<%=i+1%>">
 	        Price: <input type="number" name="price" disabled value="299" class="form-control price<%=i+1%>">
 	    </div>
 	  </div>
@@ -27,7 +27,7 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="email_id">Email</label>
-      <input type="email" class="form-control" name='email'id="email_id" placeholder="Email">
+      <input type="email" class="form-control" name='email'id="email_id" placeholder="Email" required>
     </div>
     <div class="form-group col-md-6">
       <label for="phone_number">Phone number</label>
@@ -36,23 +36,24 @@
   </div>
   <div class="form-group">
     <label for="inputAddress">Shipping Address</label>
-    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+    <input type="text" class="form-control" name="address1"id="inputAddress" placeholder="1234 Main St" required>
   </div>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputCity">City</label>
-      <input type="text" class="form-control" id="inputCity">
+      <input type="text" class="form-control" name="address2"id="inputCity" required>
     </div>
     <div class="form-group col-md-4">
       <label for="inputState">State</label>
-		<input type="text" class="form-control" id="inputState" placeholder="Your State">
+		<input type="text" class="form-control" name="address3"id="inputState" placeholder="Your State" required>
     </div>
     <div class="form-group col-md-2">
       <label for="inputZip">Zip</label>
-      <input type="text" class="form-control" id="inputZip">
+      <input type="text" class="form-control" name="address4"id="inputZip" required>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary checkout">Check Out</button>
+  <%if(cart_items){%><button type="submit" class="btn btn-primary checkout">Check Out</button><%}%>
+  <p class="text-danger"><u>Note:</u> The order will be through COD only.</p>
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -76,15 +77,24 @@
   <%if (cart_items){%>
 	var total  = 299*<%=cart_items.length%>;
   var cart_items= {};
+  var oldvalue = 1
 	$( ".cart_items" ).on("change",function(e) {
 		if(e.target!=e.currentTarget)
   		{
-  			var price = document.querySelector('.price'+e.target.id);
+        var price = document.querySelector('.price'+e.target.id);
         var name  = document.querySelector('.name' +e.target.id).textContent;
-        price.value = parseInt(price.value)+299
-  			total+=299
+        if(oldvalue<document.querySelector('.quantity'+e.target.id).value)
+        {
+          price.value = parseInt(price.value)+299
+          total+=299
+        }
+        else if(oldvalue>document.querySelector('.quantity'+e.target.id).value){
+          price.value = parseInt(price.value)-299
+          total-=299
+        }
   			$('.total').text(total)
         cart_items[name] = parseInt(price.value)
+        oldvalue = document.querySelector('.quantity'+e.target.id).value;
       }
       document.cookie = 'cart_items='+JSON.stringify(cart_items)+';path=/';
   		e.stopPropagation()
@@ -99,7 +109,7 @@
     $('#exampleModal').modal('show');
     setTimeout(function(){
         $("#myForm").submit();
-    },1000);
+    },5000);
   });
 </script>
 <% include partials/footer%>

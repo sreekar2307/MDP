@@ -80,12 +80,21 @@ app.post('/remove_from_cart/:id',check_logged_in,function(req,res){
 
 /*checkout and send a notification message*/
 app.post('/checkout',check_logged_in,function(req,res){
-	if(req.cookies.cart_items){
-		console.log(req.body)
+	if(req.session.cart_items){
 		var cart_items_json  = JSON.parse(req.cookies.cart_items);
-		email.send_an_email(req.body.email,JSON.stringify(cart_items_json));
-		req.session.cart_items=undefined;
-		req.session.cart_items_id=undefined;
+		var total = 0
+		var email_body  = "Hi User,\n"
+		email_body +="We recived an order for\n\n\n"
+		for(var key in cart_items_json){
+			email_body+=(key+".......... ₹"+cart_items_json[key])+"\n";
+			total += cart_items_json[key];
+		}
+		email_body+= ("Total............... ₹"+total+"\n\n\n");
+		email_body+="The above items will be posted to you in three working days to the below mentioned address\n\n"
+		email_body+=req.body.address1+", "+ req.body.address2+",\n"+req.body.address3+", "+ req.body.address4+".";
+		email.send_an_email(req.body.email,email_body);
+		req.session.cart_items=null;
+		req.session.cart_items_id=null;
 		res.redirect('/')
 	}
 	else{
