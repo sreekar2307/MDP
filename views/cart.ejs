@@ -77,24 +77,26 @@
   <%if (cart_items){%>
 	var total  = 299*<%=cart_items.length%>;
   var cart_items= {};
-  var oldvalue = 1
+  var oldvalue = new Array();
+  for(var i=0;i<<%=cart_items.length%>;i++)
+    oldvalue.push(1);
 	$( ".cart_items" ).on("change",function(e) {
 		if(e.target!=e.currentTarget)
   		{
         var price = document.querySelector('.price'+e.target.id);
         var name  = document.querySelector('.name' +e.target.id).textContent;
-        if(oldvalue<document.querySelector('.quantity'+e.target.id).value)
+        if(oldvalue[parseInt(e.target.id)-1]<document.querySelector('.quantity'+e.target.id).value)
         {
           price.value = parseInt(price.value)+299
           total+=299
         }
-        else if(oldvalue>document.querySelector('.quantity'+e.target.id).value){
+        else if(oldvalue[parseInt(e.target.id)-1]>document.querySelector('.quantity'+e.target.id).value){
           price.value = parseInt(price.value)-299
           total-=299
         }
   			$('.total').text(total)
         cart_items[name] = parseInt(price.value)
-        oldvalue = document.querySelector('.quantity'+e.target.id).value;
+        oldvalue[parseInt(e.target.id)-1] = document.querySelector('.quantity'+e.target.id).value;
       }
       document.cookie = 'cart_items='+JSON.stringify(cart_items)+';path=/';
   		e.stopPropagation()
